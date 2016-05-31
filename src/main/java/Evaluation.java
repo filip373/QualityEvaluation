@@ -1,9 +1,13 @@
+import measures.MaximumDifference;
 import measures.MeanSquareError;
+import measures.QualityMeasure;
 
 import javax.imageio.ImageIO;
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Filip-PC on 31.05.2016.
@@ -15,7 +19,10 @@ public class Evaluation {
         Raster result = ImageIO.read(new File(args[0])).getData();
         Raster reference = ImageIO.read(new File(args[1])).getData();
 
-        MeanSquareError mse = new MeanSquareError();
-        System.out.println(mse.name() + " " + mse.calculate(result, reference));
+        List<QualityMeasure> measures = Arrays.asList(new MeanSquareError(), new MaximumDifference());
+        for (QualityMeasure measure : measures) {
+            System.out.println(measure.name());
+            System.out.println(measure.get(result, reference));
+        }
     }
 }
